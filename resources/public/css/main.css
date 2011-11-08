@@ -1,0 +1,50 @@
+html {
+    font-family: Gentium Book Basic
+}
+.page {
+    margin-left: 20em;
+    margin-right: 20em;
+    margin-top: 5em;
+    padding: 10px;
+    border: 3px dashed black;
+}
+.nav {
+    margin: 2em;
+}
+a {
+    background: transparent;
+    border-bottom: 1px dotted;
+}
+ul.nav {
+    margin: 0em;
+    text-align: center;
+    font-size: medium;
+}
+li.nav {
+    display: inline;
+}
+.post {
+    margin-left: 0em;
+    text-align: left;
+    font-size: small;
+}
+.title {
+    font-size: large;
+}
+.author {
+    font-size: small;
+    margin-left: 0.5em;
+    font-style: italic;
+}
+.date {
+    margin-left: 1em;
+    font-size: small;
+}
+.body {
+    margin-left: 1em;
+    text-align: justified;
+}
+.footer {
+    text-align: center;
+    text-size: small;
+}
