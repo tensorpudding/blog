@@ -9,7 +9,7 @@
   [user entries]
   [:title] (enlive/content (str "Posts by " user))
   [:h1.username] (enlive/content user)
-  [:div.entries] (enlive/content (entry/user-entries user entries)))
+  [:div.entries] (enlive/content (entry/multiple-entries entries)))
 
 (defn display "Display user"
   [uid]

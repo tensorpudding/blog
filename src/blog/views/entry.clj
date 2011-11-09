@@ -1,5 +1,6 @@
 (ns blog.views.entry
-  (:require [net.cgrand.enlive-html :as enlive]))
+  (:require [blog.models.users :as users]
+            [net.cgrand.enlive-html :as enlive]))
 
 (defn set-title "Sets the title link tag content and attributes"
   [entry]
@@ -12,9 +13,10 @@
           (enlive/content title))))
 
 (defn set-author "Sets the author link tag content and attributes"
-  [user entry]
+  [entry]
   (let [uid (:uid entry)
-        pid (:pid entry)]
+        pid (:pid entry)
+        user (users/find-name uid)]
     (comp (enlive/set-attr :href
                            (str "/user/" uid)
                            :id
@@ -38,10 +40,10 @@
           (enlive/content body))))
 
 
-;; Snippet for generating lists of entries from one user
-(enlive/defsnippet user-entries
+;; Snippet for generating lists of entries
+(enlive/defsnippet multiple-entries
   "blog/views/entry.html" [:div.entrylist]
-  [user entries]
+  [entries]
 
   [:div.entry]
   (let [c (count entries)]
@@ -53,7 +55,7 @@
                         (set-title (nth entries i))
 
                         [:a.author]
-                        (set-author user (nth entries i))
+                        (set-author (nth entries i))
 
                         [:h3.date]
                         (set-date (nth entries i))
@@ -64,13 +66,13 @@
 ;; Snippet for generating a single entry for page
 (enlive/defsnippet single-entry
   "blog/views/entry.html" [:div.entrylist]
-  [user entry]
+  [entry]
 
   [:a.title]
   (set-title entry)
 
   [:a.author]
-  (set-author user entry)
+  (set-author entry)
 
   [:h3.date]
   (set-date entry)

@@ -8,7 +8,7 @@
 (enlive/deftemplate view-template "blog/views/view.html"
   [user entry]
   [:title] (enlive/content (str (:title entry) " by " user))
-  [:div.entries] (enlive/content (entry/single-entry user entry)))
+  [:div.entries] (enlive/content (entry/single-entry entry)))
 
 (defn display "Display view"
   [pid]
