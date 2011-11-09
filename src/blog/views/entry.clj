@@ -1,6 +1,42 @@
 (ns blog.views.entry
   (:require [net.cgrand.enlive-html :as enlive]))
 
+(defn set-title "Sets the title link tag content and attributes"
+  [entry]
+  (let [pid (:pid entry)
+        title (:title entry)]
+    (comp (enlive/set-attr :href
+                           (str "/view/" pid)
+                           :id
+                           (str "title" pid))
+          (enlive/content title))))
+
+(defn set-author "Sets the author link tag content and attributes"
+  [user entry]
+  (let [uid (:uid entry)
+        pid (:pid entry)]
+    (comp (enlive/set-attr :href
+                           (str "/user/" uid)
+                           :id
+                           (str "author" pid))
+          (enlive/content user))))
+
+(defn set-date "Sets the date tag content and attributes"
+  [entry]
+  (let [pid (:pid entry)
+        date (:time entry)]
+    (comp (enlive/set-attr :id
+                           (str "date" pid))
+          (enlive/content date))))
+
+(defn set-body "Sets the body tag content and attributes"
+  [entry]
+  (let [pid (:pid entry)
+        body (:body entry)]
+    (comp (enlive/set-attr :id
+                           (str "body" pid))
+          (enlive/content body))))
+
 
 ;; Snippet for generating lists of entries from one user
 (enlive/defsnippet user-entries
@@ -14,68 +50,30 @@
       (enlive/clone-for [i (range c)]
                         
                         [:a.title]
-
-                        (let [pid (:pid (nth entries i))
-                              title (:title (nth entries i))]
-                          (comp (enlive/set-attr :href
-                                                 (str "/view/" pid)
-                                                 :id
-                                                 (str "title" pid))
-                                (enlive/content title)))
+                        (set-title (nth entries i))
 
                         [:a.author]
-                        (let [uid (:uid (nth entries i))
-                              pid (:pid (nth entries i))]
-                          (comp (enlive/set-attr :href
-                                                 (str "/user/" uid)
-                                                 :id
-                                                 (str "author" pid))
-                                (enlive/content user)))
+                        (set-author user (nth entries i))
 
                         [:h3.date]
-                        (let [pid (:pid (nth entries i))
-                              date (:time (nth entries i))]
-                          (comp (enlive/set-attr :id
-                                                 (str "date" pid))
-                                (enlive/content date)))
+                        (set-date (nth entries i))
 
                         [:h4.body]
-                        (let [pid (:pid (nth entries i))
-                              body (:body (nth entries i))]
-                          (comp (enlive/set-attr :id
-                                                 (str "body" pid))
-                                (enlive/content body)))))))
+                        (set-body (nth entries i))))))
 
+;; Snippet for generating a single entry for page
 (enlive/defsnippet single-entry
   "blog/views/entry.html" [:div.entrylist]
   [user entry]
 
   [:a.title]
-  (let [pid (:pid entry)
-        title (:title entry)]
-    (comp (enlive/set-attr :href
-                           (str "/view/" pid)
-                           :id
-                           (str "title" pid))
-          (enlive/content title)))
+  (set-title entry)
 
   [:a.author]
-  (let [uid (:uid entry)
-        pid (:pid entry)]
-    (comp (enlive/set-attr :href
-                           (str "/user/" uid)
-                           :id
-                           (str "author" pid))
-          (enlive/content user)))
+  (set-author user entry)
+
   [:h3.date]
-  (let [pid (:pid entry)
-        date (:time entry)]
-    (comp (enlive/set-attr :id
-                           (str "date" pid))
-          (enlive/content date)))
+  (set-date entry)
+
   [:h4.body]
-  (let [pid (:pid entry)
-        body (:body entry)]
-    (comp (enlive/set-attr :id
-                           (str "body" pid))
-          (enlive/content body))))
+  (set-body entry))

@@ -2,7 +2,8 @@
   (:require [noir.core :as noir]
             [blog.views.view :as view]
             [blog.views.user :as user]
-            [blog.views.new :as new]))
+            [blog.views.new :as new]
+            [blog.views.post :as post]))
 
 ;; (noir/defpage "/" []
 ;;   (root/display))
@@ -15,4 +16,6 @@
 
 (noir/defpage [:get "/new"] []
   (new/display))
-  
+
+(noir/defpage [:post "/new"] {:keys [title body]}
+  (post/display title body))
