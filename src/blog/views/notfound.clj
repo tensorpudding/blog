@@ -6,4 +6,5 @@
   [])
 
 (defn display "Display 404 page"
-  [] (response/status 404 (notfound-template)))
+  []
+  (response/status 404 (notfound-template)))

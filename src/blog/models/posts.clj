@@ -8,17 +8,20 @@
   (database blog.db/db))
 
 (defn sql-current-time "Current timestamp in SQL Timestamp format"
-  [] (java.sql.Timestamp. ^long (coerce/to-long (ctime/now))))
+  []
+  (java.sql.Timestamp. ^long (coerce/to-long (ctime/now))))
 
 (defn parse-sql-time "Parse SQL timestamp to a string"
-  [sqltime] (.toString sqltime))
+  [sqltime]
+  (.toString sqltime))
 
 (defn new-post "Store new post in database"
-  [user title body] (insert posts
-                            (values {:uid user
-                                     :time (sql-current-time)
-                                     :title title
-                                     :body body})))
+  [user title body]
+  (insert posts
+          (values {:uid user
+                   :time (sql-current-time)
+                   :title title
+                   :body body})))
 
 (defn get-post "Get post by pid"
   [pid] (let [result (select posts
